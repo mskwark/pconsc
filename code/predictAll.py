@@ -43,20 +43,18 @@ cutoffs = ['1e-4', '1', '1e-10']
 
 predictionnames = []
 for i in range(3):
-	print 'jackhmmer', names[i]
-	if not os.path.exists(seqfile + '.jackhmmer.fas'):
+	sys.stderr.write('jackhmmer ' + names[i] + '\n')
+	if not os.path.exists(seqfile + '.jh' + names[i] + '.fas'):
 		t = check_output([jackhammer, '--cpu', '4', '-N', '5', '-E', '0.1', '-A', seqfile +'.jh' + names[i] + '.ali', seqfile + '.fasta', uniref100])
 		check_output([reformat, 'sto', 'fas', seqfile + '.jh' + names[i] + '.ali', seqfile + '.jh' + names[i] + '.fas'])
 		check_output(['rm', seqfile + '.jh' + names[i] + '.ali'])
 
 	if not os.path.exists(seqfile + '.jh' + names[i] + '.psicov'):
-        	t = check_output([trim, seqfile + '.jh' + names[i] + '.jones'])
-		if len(t) < 10:
-			sys.exit(0)
-		f = open(seqfile + seqfile + '.jh' + names[i] + '.jones', 'w')
+        	t = check_output([trim, seqfile + '.jh' + names[i] + '.fas'])
+		f = open(seqfile + '.jh' + names[i] + '.jones', 'w')
 		f.write(t)
 		f.close()
-		print "Running psicov"
+		sys.stderr.write("Running psicov\n")
 		if not os.path.exists(seqfile + '.jh' + names[i] + '.psicov'):
 			t = check_output([psicov, seqfile + '.jh' + names[i] + '.jones'])
 			f = open(seqfile + '.jh' + names[i] + '.psicov', 'w')
@@ -70,23 +68,23 @@ for i in range(3):
 	f.close()
 
 	if not os.path.exists(seqfile + '.jh' + names[i] + '.dca'):
-		print "Running DCA"
+		sys.stderr.write("Running DCA\n")
 		t = check_output([matlab, '-nodesktop', '-nojvm', '-r', "path(path, '" + scriptpath + "'); dca " + seqfile + '.jh' + names[i] + '.trimmed ' + seqfile + '.jh' + names[i] + '.dca; exit'])
 	predictionnames.append(seqfile + '.jh' + names[i] + '.dca')
 
-	print 'HHblits', names[i]
+	sys.stderr.write('HHblits ' + names[i] + '\n')
 	if not os.path.exists(seqfile + '.hh' + names[i] + '.fas'):
 		t = check_output([hhblits, '-oa3m', seqfile + '.hh' + names[i] + '.a3m', '-i', seqfile + '.fasta', '-d', hhblitsdb])
 		check_output([reformat, 'a3m', 'fas', seqfile + '.hh' + names[i] + '.a3m', seqfile + '.hh' + names[i] + '.fas'])
 	
 	if not os.path.exists(seqfile + '.hh' + names[i] + '.psicov'):
-        	t = check_output([trim, seqfile + '.hh' + names[i] + '.jones'])
+        	t = check_output([trim, seqfile + '.hh' + names[i] + '.fas'])
 		if len(t) < 10:
 			sys.exit(0)
-		f = open(seqfile + seqfile + '.hh' + names[i] + '.jones', 'w')
+		f = open(seqfile + '.hh' + names[i] + '.jones', 'w')
 		f.write(t)
 		f.close()
-		print "Running psicov"
+		sys.stderr.write("Running psicov\n")
 		if not os.path.exists(seqfile + '.hh' + names[i] + '.psicov'):
 			t = check_output([psicov, seqfile + '.hh' + names[i] + '.jones'])
 			f = open(seqfile + '.hh' + names[i] + '.psicov', 'w')
@@ -100,7 +98,7 @@ for i in range(3):
 	f.close()
 
 	if not os.path.exists(seqfile + '.hh' + names[i] + '.dca'):
-		print "Running DCA"
+		sys.stderr.write("Running DCA\n")
 		t = check_output([matlab, '-nodesktop', '-nojvm', '-r', "path(path, '" + scriptpath + "'); dca " + seqfile + '.hh' + names[i] + '.trimmed ' + seqfile + '.hh' + names[i] + '.dca; exit'])
 	predictionnames.append(seqfile + '.hh' + names[i] + '.dca')
 
