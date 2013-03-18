@@ -39,3 +39,30 @@ Example:
 27	43	0.952
 
 The higher the propensity, the more likely are two residues to be in contact
+
+
+PSICOV problem
+--------------
+
+Recent versions of PSICOV (justly) refuse operation if the input alignment has
+insufficient amount of (effective) sequences. PconsC uses PSICOV predictions,
+even if they are not trustworthy. Therefore, we recommend disabling the check
+for the sufficient alignment complexity.
+
+To do so, modify psicov.c file, before compilation and change:
+
+	#define MINEFSEQS (seqlen)
+
+to:
+
+	#define MINEFSEQS 1
+
+If you DO NOT want to do so, change the value of parameter in localconfig.py from:
+
+	psicovfail = False
+
+to:
+	psicovfail = True
+
+This will allow PconsC to overcome this problem, at an expense of potentially 
+less accurate predictions.
