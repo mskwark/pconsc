@@ -6,26 +6,13 @@ from localconfig import *
 import pickle, sys
 import os
 
-if len(sys.argv) != 17:
+if len(sys.argv) != 3:
 	print 'Usage: ' + sys.argv[0] + ' <output files>'
 	print 'Output files need to come in *order*!'
 	print 'That is:'
-	print ' JackHMMER 1e-4 Psicov'
-	print ' JackHMMER 1e-4 plmDCA'
-	print ' JackHMMER 1e-0 Psicov'
-	print ' JackHMMER 1e-0 plmDCA'
-	print ' JackHMMER 1e-10 Psicov'
-	print ' JackHMMER 1e-10 plmDCA'
-	print ' JackHMMER 1e-40 Psicov'
-	print ' JackHMMER 1e-40 plmDCA'
 	print ' HHblits 1e-4 Psicov'
 	print ' HHblits 1e-4 plmDCA'
-	print ' HHblits 1e-0 Psicov'
-	print ' HHblits 1e-0 plmDCA'
-	print ' HHblits 1e-10 Psicov'
-	print ' HHblits 1e-10 plmDCA'
-	print ' HHblits 1e-40 Psicov'
-	print ' HHblits 1e-40 plmDCA'
+	print '\nWARNING: This script is provided for convenience only. Results may vary!'
 	sys.exit(1)
 
 
@@ -49,7 +36,7 @@ X = []
 Y = []
 maxres = -1
 acceptable = []
-for index in range(16):
+for index in range(2):
 	contacts[index] = {}
 	d = files[index]
 	r = []
@@ -91,20 +78,20 @@ for index in range(16):
 
 for s in sorted(list(selected)):
 	q = []
-	for index in range(16):
+	for index in range(2):
 		try:
 			q.append(contacts[index][s])
 		except:
 			q.append(0)
 
-	if len(q) == 16:
+	if len(q) == 2:
 		X.append(q)
 		Y.append(s)
 
-forest = pickle.load(open(os.path.dirname(os.path.abspath(sys.argv[0])) + '/forest.dat'))
+forest = pickle.load(open(os.path.dirname(os.path.abspath(sys.argv[0])) + '/extras/hh4-psicovplmdca.dat'))
 for l in range(len(Y)):
 	(aa1, aa2) = (Y[l][0], Y[l][1])
-	print '%d %d %6.4f' % (aa1, aa2, predict(X[l], forest))
+        print '%d %d %6.4f' % (aa1, aa2, predict(X[l], forest))
 
 try:
     os.remove('banner.tmp')

@@ -39,14 +39,15 @@ else:
 	f2.write('>target\n' + "".join(x[1:]) + '\n')
 f2.close()
 
-names = ['E4', 'E0', 'E10', 'E40']
+names = ['E4']
 cutoffs = ['1e-4', '1', '1e-10', '1e-40']
 
 jhpredictionnames = []
 hhpredictionnames = []
 failed = []
 
-for i in range(4):
+for i in range(1):
+	"""
 	if not os.path.exists(seqfile + '.jh' + names[i] + '.fas'):
 		sys.stderr.write(str(datetime.now()) + ' jackhmmer ' + names[i] + ': generating alignment\nThis may take quite a few minutes!\n ')
 		t = check_output([jackhmmer, '--cpu', str(cores), '-N', '5', '-E', cutoffs[i], '-A', seqfile +'.jh' + names[i] + '.ali', seqfile + '.fasta', jackhmmerdb])
@@ -82,6 +83,7 @@ for i in range(4):
 		t = check_output([matlab, '-nodesktop', '-nosplash', '-r', "path(path, '" + scriptpath + "/plmDCA_symmetric_v2'); path(path, '" + scriptpath + "/plmDCA_symmetric_v2/functions'); path(path, '" + scriptpath + "/plmDCA_symmetric_v2/3rd_party_code/minFunc/'); plmDCA_symmetric ( '" + seqfile + '.jh' + names[i] + ".trimmed', '" + seqfile + '.jh' + names[i] + ".plmdca', 0.01, 0.01, 0.1, 4); exit"])
 
 	jhpredictionnames.append(seqfile + '.jh' + names[i] + '.plmdca')
+	"""
 
 	if not os.path.exists(seqfile + '.hh' + names[i] + '.fas'):
 		sys.stderr.write(str(datetime.now()) + ' HHblits' + names[i] + ': generating alignment\nThis may take quite a few minutes!\n ')
@@ -118,8 +120,8 @@ for i in range(4):
 	hhpredictionnames.append(seqfile + '.hh' + names[i] + '.plmdca')
 
 sys.stderr.write("Predicting...\n")
-l = [os.path.dirname(os.path.abspath(sys.argv[0])) + '/predict.py']
-l.extend(jhpredictionnames)
+l = [os.path.dirname(os.path.abspath(sys.argv[0])) + '/predict-fast.py']
+# l.extend(jhpredictionnames)
 l.extend(hhpredictionnames)
 results = check_output(l)
 

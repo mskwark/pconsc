@@ -79,8 +79,14 @@ trim2 = root + 'scripts/trimToFasta.py'
 # Reformat script scavenged from HHsuite. Please cite the HHblits paper!
 reformat = root + 'scripts/reformat.pl'
 
-plmdca = root + 'scripts/plmDCA_symmetric_v2/plmDCA_symmetric.m'
+# Download plmDCA from http://plmdca.csc.kth.se/ and put it into scripts/plmDCA_symmetric_v2 directory
+# e.g. plmdca = root + 'scripts/plmDCA_symmetric_v2/plmDCA_symmetric.m'
 
+plmdca = root + 'scripts/plmDCA_symmetric_v2/plmDCA_symmetric.m'
+if not os.path.exists(plmdca):
+	sys.stderr.write('*****************\n   ERROR!\n*****************\n\n')
+	sys.stderr.write('Download plmDCA from http://plmdca.csc.kth.se/ and put it into scripts/plmDCA_symmetric_v2 directory!\n')
+	sys.exit(1)
 
 if len(jackhmmerdb) < 2:
 	sys.stderr.write('*****************\n   ERROR!\n*****************\n\n')
@@ -103,24 +109,27 @@ if not os.path.exists(hhblitsdb+'_a3m_db'):
 	sys.exit(1)
 
 try:
-	with open(os.devnull, "w") as f:
-		x  = subprocess.call([matlab, '-h'], stdout=f, stderr=f)
+	f = open(os.devnull, "w") 
+	x  = subprocess.call([matlab, '-h'], stdout=f, stderr=f)
+	f.close()
 except:
 	sys.stderr.write('*****************\n   ERROR!\n*****************\n\n')
 	sys.stderr.write('Chosen MATLAB binary does not seem to work!\n')
 	sys.exit(1)
 
 try:
-	with open(os.devnull, "w") as f:
-		x  = subprocess.call([jackhmmer, '-h'], stdout=f, stderr=f)
+	f = open(os.devnull, "w") 
+	x  = subprocess.call([jackhmmer, '-h'], stdout=f, stderr=f)
+	f.close()
 except Exception as e:
 	sys.stderr.write('*****************\n   ERROR!\n*****************\n\n')
 	sys.stderr.write('Chosen jackhmmer binary does not seem to work!\n')
 	sys.exit(1)
 
 try:
-	with open(os.devnull, "w") as f:
-		x  = subprocess.call([hhblits, '-h'], stderr=f, stdout=f)
+	f = open(os.devnull, "w") 
+	x  = subprocess.call([hhblits, '-h'], stderr=f, stdout=f)
+	f.close()
 	pass
 except:
 	sys.stderr.write('*****************\n   ERROR!\n*****************\n\n')
@@ -129,8 +138,9 @@ except:
 
 
 try:
-	with open(os.devnull, "w") as f:
-		x  = subprocess.call([psicov, root + '/extras/psicovtest.fas'], stdout=f, stderr=f)
+	f = open(os.devnull, "w") 
+	x  = subprocess.call([psicov, root + '/extras/psicovtest.fas'], stdout=f, stderr=f)
+	f.close()
 except Exception as e:
 	sys.stderr.write('*****************\n   ERROR!\n*****************\n\n')
 	sys.stderr.write('Chosen PSICOV binary does not seem to work!\n')
