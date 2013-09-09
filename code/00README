@@ -8,9 +8,9 @@ PconsC requires:
 	* jackhmmer (part of HMMER package http://hmmer.janelia.org/software)
 	* HHblits 2.0.15 or newer (ftp://toolkit.genzentrum.lmu.de/pub/HH-suite/)
 	* PSICOV (http://bioinfadmin.cs.ucl.ac.uk/downloads/PSICOV/)
-	* sequence databases for jackhmmer (BLAST-formatted protein database, 
-	  e.g. nr90, uniref90) and HHblits (bundled with software, nr20)
-	* MATLAB for running plmDCA (necessarily with Java VM enabled)
+	* sequence databases for jackhmmer (e.g. nr90, uniref90) and HHblits 
+	  (bundled with software, nr20)
+	* MATLAB or MCR for running plmDCA (necessarily with Java VM enabled)
 
 After installing the necessary software, set paths in localconfig.py
 

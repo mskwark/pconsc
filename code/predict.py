@@ -107,7 +107,7 @@ for l in range(len(Y)):
 	print '%d %d %6.4f' % (aa1, aa2, predict(X[l], forest))
 
 try:
-    os.remove('banner.tmp')
+	os.remove('banner.tmp')
 except OSError:
-    pass
+	pass
 
