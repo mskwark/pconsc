@@ -8,9 +8,9 @@ import os
 
 if len(sys.argv) < 12 or len(sys.argv) > 17:
 	print 'Usage: ' + sys.argv[0] + ' <output files>'
-        print '\nCAREFUL: This version is provided for conveninence only'
-        print 'Authors are not responsible for your computer bursting into flame,'
-        print 'or that the predictions are actually useful...\n'
+	print '\nCAREFUL: This version is provided for conveninence only'
+	print 'Authors are not responsible for your computer bursting into flame,'
+	print 'or that the predictions are actually useful...\n'
 	print 'Output files need to come in *order*!'
 	print 'That is:'
 	print ' JackHMMER 1e-4 Psicov  #3'
@@ -29,8 +29,8 @@ if len(sys.argv) < 12 or len(sys.argv) > 17:
 	print ' HHblits 1e-10 plmDCA'
 	print ' HHblits 1e-40 Psicov'
 	print ' HHblits 1e-40 plmDCA'
-        print '\n   #n - the files that MAY be missing, if there are only 15 input files'
-        print '        program assumes that #1 is missing, 14 - #1 and #2 etc.'
+	print '\n        #n - the files that MAY be missing, if there are only 15 input files'
+	print '	              program assumes that #1 is missing, 14 - #1 and #2 etc.'
 	sys.exit(1)
 
 
@@ -110,6 +110,6 @@ for l in range(len(Y)):
 	print '{:d} {:d} {:6.4f}'.format(aa1, aa2, predict(X[l], forest))
 
 try:
-    os.remove('banner.tmp')
+	os.remove('banner.tmp')
 except OSError:
-    pass
+	pass

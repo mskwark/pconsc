@@ -55,25 +55,25 @@ for i in range(1):
 		check_output(['rm', seqfile + '.jh' + names[i] + '.ali'])
 
 	if not os.path.exists(seqfile + '.jh' + names[i] + '.psicov'):
-        	t = check_output([trim, seqfile + '.jh' + names[i] + '.fas'])
+		t = check_output([trim, seqfile + '.jh' + names[i] + '.fas'])
 		f = open(seqfile + '.jh' + names[i] + '.jones', 'w')
 		f.write(t)
 		f.close()
 
-                t = ''
-        	sys.stderr.write(str(datetime.now()) + ' jackhmmer ' + names[i] + ': running PSICOV\nThis may take more than an hour.\n')
-	        if not os.path.exists(seqfile + '.jh' + names[i] + '.psicov'):
-                	try:
+		t = ''
+		sys.stderr.write(str(datetime.now()) + ' jackhmmer ' + names[i] + ': running PSICOV\nThis may take more than an hour.\n')
+		if not os.path.exists(seqfile + '.jh' + names[i] + '.psicov'):
+			try:
 				t = check_output([psicov, seqfile + '.jh' + names[i] + '.jones'])
-                        except:
-                                t = ''
-		      	f = open(seqfile + '.jh' + names[i] + '.psicov', 'w')
-                	f.write(t)
-	                f.close()
+			except:
+				t = ''
+			f = open(seqfile + '.jh' + names[i] + '.psicov', 'w')
+			f.write(t)
+			f.close()
 
-       	jhpredictionnames.append(seqfile + '.jh' + names[i] + '.psicov')
+ 	jhpredictionnames.append(seqfile + '.jh' + names[i] + '.psicov')
 	
-        if not os.path.exists(seqfile + '.jh' + names[i] + '.plmdca'):
+	if not os.path.exists(seqfile + '.jh' + names[i] + '.plmdca'):
 		t = check_output([trim2, seqfile + '.jh' + names[i] + '.fas'])
 		f = open(seqfile + '.jh' + names[i] + '.trimmed', 'w')
 		f.write(t)
@@ -91,32 +91,35 @@ for i in range(1):
 		check_output([reformat, 'a3m', 'fas', seqfile + '.hh' + names[i] + '.a3m', seqfile + '.hh' + names[i] + '.fas'])
 	
 	if not os.path.exists(seqfile + '.hh' + names[i] + '.psicov'):
-        	t = check_output([trim, seqfile + '.hh' + names[i] + '.fas'])
+		t = check_output([trim, seqfile + '.hh' + names[i] + '.fas'])
 		f = open(seqfile + '.hh' + names[i] + '.jones', 'w')
 		f.write(t)
 		f.close()
 		
 		sys.stderr.write(str(datetime.now()) + ' HHblits ' + names[i] + ': running PSICOV\nThis may take more than an hour.\n')
-                t = ''
-        	if not os.path.exists(seqfile + '.hh' + names[i] + '.psicov'):
-                	try:
+		t = ''
+		if not os.path.exists(seqfile + '.hh' + names[i] + '.psicov'):
+			try:
 				t = check_output([psicov, seqfile + '.hh' + names[i] + '.jones'])
 			except:
-                        	t = ''
-        		f = open(seqfile + '.hh' + names[i] + '.psicov', 'w')
-	        	f.write(t)
-        	        f.close()
+				t = ''
+			f = open(seqfile + '.hh' + names[i] + '.psicov', 'w')
+			f.write(t)
+			f.close()
 
-                hhpredictionnames.append(seqfile + '.hh' + names[i] + '.psicov')
+		hhpredictionnames.append(seqfile + '.hh' + names[i] + '.psicov')
 	
-        if not os.path.exists(seqfile + '.hh' + names[i] + '.plmdca'):
+	if not os.path.exists(seqfile + '.hh' + names[i] + '.plmdca'):
 		t = check_output([trim2, seqfile + '.hh' + names[i] + '.fas'])
 		f = open(seqfile + '.hh' + names[i] + '.trimmed', 'w')
 		f.write(t)
 		f.close()
 
 		sys.stderr.write(str(datetime.now()) + ' HHblits ' + names[i] + ': running plmDCA\nThis may take more than an hour.\n')
-		t = check_output([matlab, '-nodesktop', '-nosplash', '-r', "path(path, '" + scriptpath + "/plmDCA_symmetric_v2'); path(path, '" + scriptpath + "/plmDCA_symmetric_v2/functions'); path(path, '" + scriptpath + "/plmDCA_symmetric_v2/3rd_party_code/minFunc/'); plmDCA_symmetric ( '" + seqfile + '.hh' + names[i] + ".trimmed', '" + seqfile + '.hh' + names[i] + ".plmdca', 0.01, 0.01, 0.1, 4); exit"])
+		if plmdca:
+			t = check_output([plmdca, seqfile + '.hh' + names[i] + ".trimmed", seqfile + '.hh' + names[i] + ".plmdca", "0.01", "0.01", "0.1", "4"])
+		else:
+			t = check_output([matlab, '-nodesktop', '-nosplash', '-r', "path(path, '" + scriptpath + "/plmDCA_symmetric_v2'); path(path, '" + scriptpath + "/plmDCA_symmetric_v2/functions'); path(path, '" + scriptpath + "/plmDCA_symmetric_v2/3rd_party_code/minFunc/'); plmDCA_symmetric ( '" + seqfile + '.hh' + names[i] + ".trimmed', '" + seqfile + '.hh' + names[i] + ".plmdca', 0.01, 0.01, 0.1, 4); exit"])
 	hhpredictionnames.append(seqfile + '.hh' + names[i] + '.plmdca')
 
 sys.stderr.write("Predicting...\n")

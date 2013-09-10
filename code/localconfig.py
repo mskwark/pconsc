@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-import sys, os, subprocess
+import os
+import sys
+import multiprocessing
+import subprocess
 
 if __name__ == '__main__':
     print 'Please do not run me! Use predict.py or predictAll.py'
@@ -45,8 +48,8 @@ doi:10.1038/nmeth.1818
 root = os.path.dirname(os.path.abspath(sys.argv[0])) + '/'
 
 # Maximum amount of cores to use
-# joel@nsc: Better set as command line parameter.
-cores = None
+# joel@nsc: Using all the resources available is probably the default that makes most sense.
+cores = multiprocessing.cpu_count()
 
 # Enable work-around for PSICOV not handling low complexity alignments?
 # Warning: enable ONLY if you are certain that it is what you want to do!

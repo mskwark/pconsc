@@ -16,7 +16,7 @@ if sys.argv[1] == '-c':
     try:
         cores = int(sys.argv[2])
     except:
-        print 'Number of cores -c must be an integer number, %r is not.' % sys.argv[2] 
+        print 'Number of cores -c must be an integer number, %r is not. Default is %s.' % (sys.argv[2], cores) 
         sys.exit(1)
     del sys.argv[1:3]
     
