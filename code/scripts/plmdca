@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Sample plmDCA MCR launcher script by Joel Hedlund <joel@nsc.liu.se>.
+
+### Installation:
+
+# 1. Build a plmDCA standalone using deploytool in matlab. Do not forget to add all source directories (functions, third party code...).
+# 2. Copy the whole plmDCA standalone distrib directory to e.g. /path/to/plmdca/distrib
+# 3. Put this script in /path/to/plmdca/bin
+# 4. Edit configuration below to specify paths.
+# 5. Optional: put /path/to/plmdca/bin in your PATH.
+
+### Configuration:
+
+# Path to root of the Matlab Runtime Compiler (MCR) installation,
+# or a path to a complete Matlab installation. 
+# Example: 
+# MCR_ROOT=/software/apps/mcr/2012b/build01/v80
+MCR_ROOT=/software/apps/mcr/2012b/build01/v80
+
+# Where to find the run_plmDCA.sh launcher.
+# No need to change if you followed the steps in Installation above. 
+standalone=$(dirname $0)/../distrib/run_plmDCA.sh
+
+if [ "x$1" == "x" -o "$1" == "-h" -o "$1" == "--help" ]; then
+    echo "plmDCA standalone wrapper script by Joel Hedlund <joel@nsc.liu.se>."
+    echo
+    echo "USAGE: plmdca INFILE OUTFILE LAMBDA_H LAMBDA_J REWEIGHTING_THRESHOLD N_CORES"
+    echo
+    echo "example: plmdca PF00014_full.txt PF00014_scores.txt 0.01 0.01 0.1 4"
+    echo
+    exit
+fi
+
+if [ "x$MCR_ROOT" == "x" -o -n -d $MCR_ROOT ]; then
+    echo "plmDCA standalone wrapper script by Joel Hedlund <joel@nsc.liu.se>."
+    echo
+    echo "ERROR: MCR_ROOT is improperly configured. Edit this script to supply a correct path."
+    exit 1
+fi
+	
+$standalone $MCR_ROOT "$@"
+exit $?
