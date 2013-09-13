@@ -26,6 +26,10 @@ standalone=$(dirname $0)/../distrib/run_plmDCA.sh
 # Advice from here: http://matlab4compbio.blogspot.se/2010/04/how-to-solve-mcr-cache-access-problems.html
 export MCR_CACHE_ROOT=/tmp
 
+# Worker limit. Matlab refuses to use more workers than it thinks you have cores, 
+# or more than you have a license for. 
+worker_limit=12
+
 if [ "x$1" == "x" -o "$1" == "-h" -o "$1" == "--help" ]; then
     echo "plmDCA standalone wrapper script by Joel Hedlund <joel@nsc.liu.se>."
     echo
@@ -43,5 +47,10 @@ if [ "x$MCR_ROOT" == "x" -o ! -d "$MCR_ROOT" ]; then
     exit 1
 fi
 
-$standalone $MCR_ROOT "$@"
-exit $?
+workers=$6
+if [ "$workers" -gt $worker_limit ]; then
+    echo "WARNING: Number of MATLAB workers restricted to $limit on this system ($6 requested)."
+    workers=$worker_limit
+fi
+        
+$standalone $MCR_ROOT "$1" "$2" "$3" "$4" "$5" $workers
