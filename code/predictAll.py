@@ -124,7 +124,7 @@ for i in range(4):
             f.write(t)
             f.close()
 
-        hhpredictionnames.append(seqfile + '.hh' + names[i] + '.psicov')
+    hhpredictionnames.append(seqfile + '.hh' + names[i] + '.psicov')
     
     if not os.path.exists(seqfile + '.hh' + names[i] + '.plmdca'):
         t = check_output([trim2, seqfile + '.hh' + names[i] + '.fas'])

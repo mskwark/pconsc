@@ -22,6 +22,10 @@ MCR_ROOT=/software/apps/mcr/2012b/build01/v80
 # No need to change if you followed the steps in Installation above. 
 standalone=$(dirname $0)/../distrib/run_plmDCA.sh
 
+# Uncomment to run on a cluster.
+# Advice from here: http://matlab4compbio.blogspot.se/2010/04/how-to-solve-mcr-cache-access-problems.html
+export MCR_CACHE_ROOT=/tmp
+
 if [ "x$1" == "x" -o "$1" == "-h" -o "$1" == "--help" ]; then
     echo "plmDCA standalone wrapper script by Joel Hedlund <joel@nsc.liu.se>."
     echo
@@ -32,12 +36,12 @@ if [ "x$1" == "x" -o "$1" == "-h" -o "$1" == "--help" ]; then
     exit
 fi
 
-if [ "x$MCR_ROOT" == "x" -o -n -d $MCR_ROOT ]; then
+if [ "x$MCR_ROOT" == "x" -o ! -d "$MCR_ROOT" ]; then
     echo "plmDCA standalone wrapper script by Joel Hedlund <joel@nsc.liu.se>."
     echo
     echo "ERROR: MCR_ROOT is improperly configured. Edit this script to supply a correct path."
     exit 1
 fi
-	
+
 $standalone $MCR_ROOT "$@"
 exit $?
