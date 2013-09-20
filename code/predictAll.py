@@ -8,10 +8,6 @@ import string as s
 def check_output(command):
     return subprocess.Popen(command, stdout=subprocess.PIPE).communicate()[0]
     
-if len(sys.argv) != 4:
-    print sys.argv[0], '[-c n_cores] <hhblits db> <jackhmmer db> <sequence file>'
-    sys.exit(0)
-
 if sys.argv[1] == '-c':
     try:
         cores = int(sys.argv[2])
@@ -20,6 +16,10 @@ if sys.argv[1] == '-c':
         sys.exit(1)
     del sys.argv[1:3]
     
+if len(sys.argv) != 4:
+    print sys.argv[0], '[-c n_cores] <hhblits db> <jackhmmer db> <sequence file>'
+    sys.exit(0)
+
 hhblitsdb = sys.argv[1]
 jackhmmerdb = sys.argv[2]
 seqfile = sys.argv[3]
